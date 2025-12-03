@@ -14,14 +14,7 @@
         --safe-bottom: env(safe-area-inset-bottom, 0px);
         --safe-top: env(safe-area-inset-top, 0px);
         --headerH: 64px;
-      }
-      @media (prefers-color-scheme: light) {
-        :root {
-          --bg: #f6fbff;
-          --surface: #fff;
-          --text: #0f172a;
-          --muted: #475569;
-        }
+        color-scheme: dark;
       }
       * {
         box-sizing: border-box;
@@ -39,6 +32,7 @@
         overflow: hidden;
         touch-action: pan-y;
       }
+      html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
       .parallax {
         position: fixed;
@@ -614,6 +608,13 @@
         max-height: min(92vh, calc(100svh - 32px));
         overflow: auto;
       }
+
+      @media (max-width: 640px) {
+        .panel {
+          width: min(480px, 90vw);
+          padding: 16px;
+        }
+      }
       .panel h3 {
         margin: 0 0 8px 0;
         font-size: 18px;
@@ -796,15 +797,6 @@
         background: rgba(17, 24, 39, 0.86);
         border: 1px solid rgba(148, 163, 184, 0.28);
         box-shadow: var(--shadow);
-      }
-
-      @media (prefers-color-scheme: light) {
-        #overlay {
-          background: rgba(241, 245, 249, 0.35);
-        }
-        #overlay .panel {
-          background: rgba(255, 255, 255, 0.92);
-        }
       }
 
       .previewWrap {

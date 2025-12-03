@@ -15,6 +15,14 @@
         --safe-top: env(safe-area-inset-top, 0px);
         --headerH: 64px;
       }
+      @media (prefers-color-scheme: light) {
+        :root {
+          --bg: #f6fbff;
+          --surface: #fff;
+          --text: #0f172a;
+          --muted: #475569;
+        }
+      }
       * {
         box-sizing: border-box;
       }
@@ -253,8 +261,8 @@
       .viewport {
         position: relative;
         width: 100vw;
-        height: calc(100vh - var(--headerH));
         height: calc(100svh - var(--headerH));
+        overflow: hidden;
       }
       .stack {
         position: absolute;
@@ -301,6 +309,27 @@
         z-index: 1;
         opacity: 0;
         pointer-events: none;
+      }
+
+      @media (max-width: 640px) {
+        .pos-left {
+          transform: translateX(-140%);
+          opacity: 0;
+          filter: none;
+        }
+        .pos-right {
+          transform: translateX(140%);
+          opacity: 0;
+          filter: none;
+        }
+        .pos-far-left {
+          transform: translateX(-280%);
+          opacity: 0;
+        }
+        .pos-far-right {
+          transform: translateX(280%);
+          opacity: 0;
+        }
       }
 
       .card {
@@ -530,7 +559,7 @@
         left: 0;
         right: 0;
         bottom: calc(12px + var(--safe-bottom));
-        display: flex;
+        display: none;
         align-items: center;
         justify-content: center;
         gap: 10px;
@@ -822,11 +851,6 @@
       }
 
       @media (max-width: 640px) {
-        .pos-left,
-        .pos-right {
-          opacity: 0;
-          filter: none;
-        }
         header .logo {
           width: 28px;
           height: 28px;
@@ -873,17 +897,10 @@
 
       @media (max-width: 480px) {
         header .pill {
-          padding: 4px 8px;
-          font-size: 12px;
-        }
-        header .pill input[type="range"] {
-          width: 110px;
-          height: 18px;
+          display: none;
         }
         #mute {
-          padding: 8px 10px;
-          font-size: 12px;
-          border-radius: 999px;
+          display: none;
         }
         header .muted#subApp {
           display: none;
@@ -940,7 +957,7 @@
         }
 
         #cardThemeSeg {
-          display: inline-flex !important;
+          display: none !important;
         }
         .gratCTA .btn {
           flex: 1 1 0;

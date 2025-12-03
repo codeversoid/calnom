@@ -246,6 +246,7 @@ let running = false,
   muted = false,
   modeAudio = false,
   currentWhich = null;
+let sliding = false;
 
 function toastIt(msg, ms = 2000) {
   if (!toast || !toastMsg) return;
@@ -286,14 +287,18 @@ function updatePositions() {
 }
 const mod = (n, m) => ((n % m) + m) % m;
 function go(delta) {
-  if (running) return;
+  if (running || sliding) return;
   idx = mod(idx + delta, N);
   updatePositions();
+  sliding = true;
+  setTimeout(() => (sliding = false), 560);
 }
 function goTo(i) {
-  if (running) return;
+  if (running || sliding) return;
   idx = mod(i, N);
   updatePositions();
+  sliding = true;
+  setTimeout(() => (sliding = false), 560);
 }
 
 function drawValueChip(ctx, text, x, y) {
@@ -1842,6 +1847,32 @@ langSeg.addEventListener("click", (e) => {
   syncLangSeg();
   applyLangTexts();
 });
+
+(function () {
+  let x0 = null;
+  const thr = 40;
+  const stack = document.querySelector(".stack");
+  stack.addEventListener(
+    "touchstart",
+    (e) => {
+      if (running) return;
+      x0 = e.touches[0].clientX;
+    },
+    { passive: true }
+  );
+  stack.addEventListener(
+    "touchend",
+    (e) => {
+      if (running || x0 == null) return;
+      const dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > thr) {
+        go(dx < 0 ? +1 : -1);
+      }
+      x0 = null;
+    },
+    { passive: true }
+  );
+})();
 
 document.addEventListener("keydown", (e) => {
   const el = e.target,
